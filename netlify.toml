@@ -1,0 +1,8 @@
+# Configuration de déploiement Netlify pour le site LB Photographie (Next.js export statique)
+
+[build]
+  command = "npm run build"   # génère le dossier "out/"
+  publish = "out"             # Netlify sert ce dossier tel quel
+
+[build.environment]
+  NODE_VERSION = "22"
