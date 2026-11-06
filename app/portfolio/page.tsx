@@ -195,13 +195,8 @@ export default function Portfolio() {
       ) : (
         <div style={{ padding: "2rem 3rem 3rem", columns: "3 220px", columnGap: "6px", lineHeight: 0 }}>
           {filtered.map(photo => (
-            <div key={photo.id} onClick={() => setLbIndex(filtered.indexOf(photo))} style={{ display: "inline-block", width: "100%", marginBottom: "6px", position: "relative", overflow: "hidden", cursor: "pointer", breakInside: "avoid" }}
-              onMouseEnter={e => { const o = e.currentTarget.querySelector(".ov") as HTMLElement; if(o) o.style.opacity="1"; }}
-              onMouseLeave={e => { const o = e.currentTarget.querySelector(".ov") as HTMLElement; if(o) o.style.opacity="0"; }}>
+            <div key={photo.id} onClick={() => setLbIndex(filtered.indexOf(photo))} style={{ display: "inline-block", width: "100%", marginBottom: "6px", position: "relative", overflow: "hidden", cursor: "pointer", breakInside: "avoid" }}>
               <img src={photo.src} alt={photo.title} loading="lazy" style={{ width: "100%", aspectRatio: photo.ratio, objectFit: "cover", display: "block" }} />
-              <div className="ov" style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(26,24,20,0.55), rgba(26,24,20,0.05) 45%, transparent)", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "1.25rem", opacity: 0, transition: "opacity 0.35s" }}>
-                <p style={{ fontFamily: "var(--font-display)", fontSize: "1.05rem", color: "var(--ivory)", fontWeight: 400, lineHeight: 1.2 }}>{photo.title}</p>
-              </div>
             </div>
           ))}
         </div>
