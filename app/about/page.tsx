@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "À propos",
+  description: "Léa Bugnon, photographe et vidéaste équestre basée en Suisse : concours, shootings privés et contenu pour écuries et entreprises.",
+};
+
+const references = ["Amazonia"];
+
 export default function About() {
   return (
-    <div style={{ paddingTop: "64px" }}>
+    <div style={{ paddingTop: "72px" }}>
       <div style={{ padding: "4rem 3rem 6rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8rem", maxWidth: "1100px" }}>
         <div>
-          <div style={{ aspectRatio: "3/4", backgroundImage: "url('/images/a-propos.jpg')", backgroundSize: "cover", backgroundPosition: "center", marginBottom: "1rem" }} />
+          <div style={{ aspectRatio: "3/4", backgroundImage: "url('/photos/a-propos.webp')", backgroundSize: "cover", backgroundPosition: "center", marginBottom: "1rem" }} />
           <p style={{ fontSize: "12px", color: "var(--text-light)", letterSpacing: "0.1em" }}>Léa Bugnon — LB Photographie</p>
         </div>
         <div style={{ paddingTop: "2rem" }}>
@@ -28,6 +37,14 @@ export default function About() {
 </div>
         </div>
       </div>
+      <section style={{ padding: "0 var(--gutter) 6rem", maxWidth: "1100px" }}>
+        <p className="eyebrow leather" style={{ marginBottom: "1.2rem" }}>Ils m&rsquo;ont fait confiance</p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem 2.5rem", borderTop: "1px solid var(--border)", paddingTop: "1.8rem" }}>
+          {references.map(r => (
+            <p key={r} className="display" style={{ fontSize: "clamp(1.5rem, 3vw, 2.2rem)" }}>{r}</p>
+          ))}
+        </div>
+      </section>
       <style>{`
         @media (max-width: 768px) {
           div[style*="gridTemplateColumns: '1fr 1fr'"] { grid-template-columns: 1fr !important; gap: 2rem !important; }

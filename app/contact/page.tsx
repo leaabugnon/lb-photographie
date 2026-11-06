@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -8,8 +8,23 @@ type Status = "idle" | "sending" | "sent" | "error";
 // fois, et ensuite le formulaire fonctionne définitivement. Aucun compte.
 const DESTINATION = "info@lb-photographie.ch";
 
+const typeLabels: Record<string, string> = {
+  entreprise: "Entreprise / marque",
+  particulier: "Shooting particulier",
+  cours: "Cours / entraînement",
+  concours: "Concours équestre",
+  autre: "Autre projet",
+};
+
 export default function Contact() {
   const [form, setForm] = useState({ nom: "", email: "", sujet: "", message: "" });
+  const [type, setType] = useState("");
+
+  // Pré-sélection depuis la page Prestations (?type=entreprise | particulier | cours | concours | autre)
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get("type");
+    if (t && ["entreprise", "particulier", "cours", "concours", "autre"].includes(t)) setType(t);
+  }, []);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -31,6 +46,7 @@ export default function Contact() {
         body: JSON.stringify({
           name: form.nom,
           email: form.email,
+          type_de_demande: typeLabels[type] || "Non précisé",
           message: form.message,
           _replyto: form.email,
           _subject: form.sujet
@@ -74,12 +90,12 @@ export default function Contact() {
   };
 
   return (
-    <div style={{ paddingTop: "64px" }}>
-      <div style={{ padding: "4rem 3rem 6rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8rem", maxWidth: "1000px" }}>
+    <div style={{ paddingTop: "72px" }}>
+      <div className="contact-grid page-wrap" style={{ maxWidth: "1100px" }}>
         <div>
           <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 400, lineHeight: 1.1, marginBottom: "2rem" }}>Contact</h1>
           <p style={{ fontSize: "14px", color: "var(--text-mid)", lineHeight: 1.8, marginBottom: "3rem" }}>
-            Pour toute demande de devis, collaboration ou renseignement. Réponse sous 24h.
+            Entreprise, shooting, cours ou concours : dites-moi votre projet, la date et le lieu si vous les connaissez. Réponse sous 24h.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
             {[["Email", "info@lb-photographie.ch"], ["Instagram", "@lb_.photographie"], ["Localisation", "Suisse"]].map(([l, v]) => (
@@ -108,6 +124,22 @@ export default function Contact() {
                 style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0, width: 0 }}
                 aria-hidden="true"
               />
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                <label style={labelStyle}>Type de demande</label>
+                <select
+                  name="type"
+                  value={type}
+                  onChange={e => setType(e.target.value)}
+                  style={fieldStyle}
+                >
+                  <option value="">Choisir…</option>
+                  <option value="entreprise">Entreprise / marque</option>
+                  <option value="particulier">Shooting particulier</option>
+                  <option value="cours">Cours / entraînement</option>
+                  <option value="concours">Concours équestre</option>
+                  <option value="autre">Autre projet</option>
+                </select>
+              </div>
               {[
                 { key: "nom", label: "Nom", type: "text" },
                 { key: "email", label: "Email", type: "email" },
@@ -168,12 +200,6 @@ export default function Contact() {
           )}
         </div>
       </div>
-      <style>{`
-        @media (max-width: 768px) {
-          div[style*="gridTemplateColumns: '1fr 1fr'"] { grid-template-columns: 1fr !important; gap: 3rem !important; }
-          div[style*="padding: 4rem 3rem"] { padding: 3rem 1.5rem !important; }
-        }
-      `}</style>
     </div>
   );
 }

@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Photos originales (tres lourdes) - gardees en local, non versionnees ni deployees.
+# Les versions web optimisees sont dans public/photos/ (elles, sont versionnees).
+/public/images/
