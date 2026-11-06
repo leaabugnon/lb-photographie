@@ -10,9 +10,9 @@ const references = ["Amazonia"];
 export default function About() {
   return (
     <div style={{ paddingTop: "72px" }}>
-      <div style={{ padding: "4rem 3rem 6rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8rem", maxWidth: "1100px" }}>
+      <div className="about-grid">
         <div>
-          <div style={{ aspectRatio: "3/4", backgroundImage: "url('/photos/a-propos.webp')", backgroundSize: "cover", backgroundPosition: "center", marginBottom: "1rem" }} />
+          <div className="about-photo" style={{ backgroundImage: "url('/photos/a-propos.webp')" }} />
           <p style={{ fontSize: "12px", color: "var(--text-light)", letterSpacing: "0.1em" }}>Léa Bugnon — LB Photographie</p>
         </div>
         <div style={{ paddingTop: "2rem" }}>
@@ -45,12 +45,6 @@ export default function About() {
           ))}
         </div>
       </section>
-      <style>{`
-        @media (max-width: 768px) {
-          div[style*="gridTemplateColumns: '1fr 1fr'"] { grid-template-columns: 1fr !important; gap: 2rem !important; }
-          div[style*="padding: 4rem 3rem"] { padding: 3rem 1.5rem !important; }
-        }
-      `}</style>
     </div>
   );
 }

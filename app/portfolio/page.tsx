@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const categories = ["Tout", "Chevaux", "Sports équestres", "Sport", "Animalier", "Architecture", "Portrait", "Vidéo"];
 
@@ -85,7 +85,11 @@ const instaReels: string[] = [
 
 export default function Portfolio() {
   const [active, setActive] = useState("Tout");
-  const [lightbox, setLightbox] = useState<null | { src: string; title: string; cat: string }>(null);
+  const [lbIndex, setLbIndex] = useState<number | null>(null);
+  const touchX = useRef<number | null>(null);
+  const filtered = active === "Tout" ? photos : photos.filter(p => p.cat === active);
+  const lightbox = lbIndex !== null ? filtered[lbIndex] : null;
+  const go = (d: number) => setLbIndex(i => (i === null || filtered.length === 0 ? i : (i + d + filtered.length) % filtered.length));
 
   // Lit la catégorie depuis l'URL (ex : /portfolio/?cat=Sport) au chargement.
   useEffect(() => {
@@ -94,12 +98,24 @@ export default function Portfolio() {
     if (p && categories.includes(p)) setActive(p);
   }, []);
 
-  // Ferme la lightbox avec la touche Échap.
+  // Lightbox au clavier : Échap pour fermer, flèches pour changer de photo.
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setLightbox(null); };
+    if (lbIndex === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLbIndex(null);
+      else if (e.key === "ArrowRight") go(1);
+      else if (e.key === "ArrowLeft") go(-1);
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lbIndex, filtered.length]);
+
+  // Précharge les photos voisines pour un passage instantané.
+  useEffect(() => {
+    if (lbIndex === null || filtered.length === 0) return;
+    [1, -1].forEach(d => { const n = filtered[(lbIndex + d + filtered.length) % filtered.length]; if (n) { const im = new Image(); im.src = n.src; } });
+  }, [lbIndex, filtered]);
 
   // Charge et déclenche le rendu des reels Instagram quand la catégorie Vidéo est active.
   useEffect(() => {
@@ -122,7 +138,6 @@ export default function Portfolio() {
     }
   }, [active]);
 
-  const filtered = active === "Tout" ? photos : photos.filter(p => p.cat === active);
 
   return (
     <div style={{ paddingTop: "72px" }}>
@@ -178,7 +193,7 @@ export default function Portfolio() {
       ) : (
         <div style={{ padding: "2rem 3rem 6rem", columns: "3 220px", columnGap: "6px", lineHeight: 0 }}>
           {filtered.map(photo => (
-            <div key={photo.id} onClick={() => setLightbox(photo)} style={{ display: "inline-block", width: "100%", marginBottom: "6px", position: "relative", overflow: "hidden", cursor: "pointer", breakInside: "avoid" }}
+            <div key={photo.id} onClick={() => setLbIndex(filtered.indexOf(photo))} style={{ display: "inline-block", width: "100%", marginBottom: "6px", position: "relative", overflow: "hidden", cursor: "pointer", breakInside: "avoid" }}
               onMouseEnter={e => { const o = e.currentTarget.querySelector(".ov") as HTMLElement; if(o) o.style.opacity="1"; }}
               onMouseLeave={e => { const o = e.currentTarget.querySelector(".ov") as HTMLElement; if(o) o.style.opacity="0"; }}>
               <img src={photo.src} alt={photo.title} loading="lazy" style={{ width: "100%", aspectRatio: photo.ratio, objectFit: "cover", display: "block" }} />
@@ -191,20 +206,34 @@ export default function Portfolio() {
       )}
 
       {lightbox && (
-        <div onClick={() => setLightbox(null)} style={{
+        <div onClick={() => setLbIndex(null)}
+          onTouchStart={e => { touchX.current = e.touches[0].clientX; }}
+          onTouchEnd={e => {
+            if (touchX.current === null) return;
+            const dx = e.changedTouches[0].clientX - touchX.current;
+            touchX.current = null;
+            if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+          }}
+          style={{
           position: "fixed", inset: 0, zIndex: 200, background: "rgba(26,24,20,0.92)",
           display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
           padding: "3rem 2rem", cursor: "zoom-out",
         }}>
-          <button onClick={() => setLightbox(null)} aria-label="Fermer" style={{
+          <button onClick={e => { e.stopPropagation(); setLbIndex(null); }} aria-label="Fermer" style={{
             position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none",
-            color: "var(--ivory)", fontSize: "2rem", lineHeight: 1, cursor: "pointer", fontWeight: 300,
+            color: "var(--ivory)", fontSize: "2rem", lineHeight: 1, cursor: "pointer", fontWeight: 300, zIndex: 2,
           }}>×</button>
+          {filtered.length > 1 && (
+            <>
+              <button className="lb-arrow lb-prev" onClick={e => { e.stopPropagation(); go(-1); }} aria-label="Photo précédente">‹</button>
+              <button className="lb-arrow lb-next" onClick={e => { e.stopPropagation(); go(1); }} aria-label="Photo suivante">›</button>
+            </>
+          )}
           <img src={lightbox.src} alt={lightbox.title} onClick={e => e.stopPropagation()} style={{
-            maxWidth: "92vw", maxHeight: "82vh", objectFit: "contain", display: "block", cursor: "default",
+            maxWidth: "92vw", maxHeight: "78vh", objectFit: "contain", display: "block", cursor: "default",
           }} />
           <div style={{ textAlign: "center", marginTop: "1.25rem", cursor: "default" }} onClick={e => e.stopPropagation()}>
-            <p style={{ fontSize: "10px", letterSpacing: "0.2em", color: "rgba(247,244,239,0.6)", textTransform: "uppercase", marginBottom: "4px" }}>{lightbox.cat}</p>
+            <p style={{ fontSize: "10px", letterSpacing: "0.2em", color: "rgba(247,244,239,0.6)", textTransform: "uppercase", marginBottom: "4px" }}>{lightbox.cat}{lbIndex !== null ? ` · ${lbIndex + 1} / ${filtered.length}` : ""}</p>
             <p style={{ fontFamily: "var(--font-display)", fontSize: "1.15rem", color: "var(--ivory)" }}>{lightbox.title}</p>
           </div>
         </div>

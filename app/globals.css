@@ -180,3 +180,23 @@ img { max-width: 100%; }
 .galerie-banner { display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap; padding: 3rem var(--gutter); border-bottom: 1px solid var(--border); background: #EFEAE1; }
 .galerie-banner .display { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0.4rem 0 0.6rem; }
 .galerie-banner .galerie-text { font-size: 14px; color: var(--text-mid); line-height: 1.7; max-width: 520px; }
+
+/* Lightbox : flèches */
+.lb-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(247,244,239,0.1); border: none; color: var(--ivory); font-size: 2.4rem; line-height: 1; width: 52px; height: 72px; cursor: pointer; z-index: 2; transition: background 0.2s; font-family: var(--font-body); }
+.lb-arrow:hover { background: rgba(247,244,239,0.25); }
+.lb-prev { left: 1rem; }
+.lb-next { right: 1rem; }
+@media (max-width: 768px) {
+  .lb-arrow { width: 40px; height: 56px; font-size: 1.9rem; background: rgba(26,24,20,0.45); }
+  .lb-prev { left: 0.25rem; }
+  .lb-next { right: 0.25rem; }
+}
+
+/* À propos */
+.about-grid { padding: 4rem var(--gutter) 6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 8rem; max-width: 1100px; }
+.about-photo { aspect-ratio: 3/4; background-size: cover; background-position: center; margin-bottom: 1rem; }
+@media (max-width: 768px) {
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; padding: 2rem var(--gutter) 3rem; }
+  .about-grid h1 { margin-bottom: 1.5rem !important; }
+  .about-grid > div:last-child { padding-top: 0 !important; }
+}

@@ -15,15 +15,15 @@ export type Post = {
 
 export const posts: Post[] = [
   {
-    slug: "journee-photo-societe-de-cavalerie",
-    title: "Une journée photo avec votre société de cavalerie",
+    slug: "journee-photo-ecurie-societe-de-cavalerie",
+    title: "Une journée photo dans votre écurie ou société de cavalerie",
     date: "6 novembre 2026",
     dateISO: "2026-11-06",
     cat: "Conseils",
     cover: "/photos/cours-cross-1.webp",
-    excerpt: "Photographe et vidéaste équestre : comment se passe une journée de photos et de vidéos dans votre société de cavalerie, de l'arrivée à la livraison.",
+    excerpt: "Photographe et vidéaste équestre : comment se passe une journée de photos et de vidéos dans votre écurie ou votre société de cavalerie, de l'arrivée à la livraison.",
     body: [
-      { text: "Vous êtes une société de cavalerie ou un club, et vous aimeriez des photos et des vidéos de vos cavaliers sur une journée, sans que ça complique votre organisation ? Voici comment ça se passe concrètement avec moi." },
+      { text: "Vous gérez une écurie, un club ou une société de cavalerie, ou vous organisez une journée entre cavaliers, et vous aimeriez des photos et des vidéos de vos cavaliers sur une journée, sans que ça complique votre organisation ? Voici comment ça se passe concrètement avec moi." },
       { h: "Avant la journée", text: "On se parle d'abord : date, lieu, ce que vous souhaitez, photo, vidéo ou les deux. Les cavaliers qui veulent des images me l'indiquent à l'avance, c'est ce qui me permet de savoir qui je dois suivre.", links: [{ href: "/contact?type=cours", label: "Demander un devis" }] },
       { h: "Pendant la journée", text: "J'arrive et je reste toute la journée. Je photographie ou je filme les cavaliers selon ce qu'ils m'ont demandé : certains veulent des photos, d'autres une vidéo, d'autres les deux. Je m'adapte à votre programme, sans perturber les chevaux ni les cavaliers." },
       { h: "Les cavaliers qui n'ont rien commandé", text: "Si vous le souhaitez, on peut aussi en discuter : je peux photographier les cavaliers qui n'ont rien commandé, et mettre leurs photos en vente à l'unité dans une galerie en ligne. Chacun y retrouve ses images, mais la galerie reste ouverte seulement un temps limité. C'est une option, pas une obligation, à décider ensemble avant la journée." },
