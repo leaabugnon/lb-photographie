@@ -3,10 +3,8 @@ import { useState, useEffect } from "react";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-// Adresse de réception des messages. Au tout premier envoi, FormSubmit
-// t'enverra un email de confirmation à cette adresse : clique le lien une
-// fois, et ensuite le formulaire fonctionne définitivement. Aucun compte.
-const DESTINATION = "info@lb-photographie.ch";
+// Les messages sont reçus via Netlify Forms (formulaire déclaré dans
+// public/formulaire-contact.html). La notification par mail se règle dans Netlify.
 
 const typeLabels: Record<string, string> = {
   entreprise: "Entreprise / marque",
@@ -33,41 +31,37 @@ export default function Contact() {
     if (status === "sending") return;
 
     // Honeypot anti-spam : si ce champ caché est rempli, c'est un bot.
-    const botField = e.currentTarget.elements.namedItem("_honey") as HTMLInputElement | null;
+    const botField = e.currentTarget.elements.namedItem("bot-field") as HTMLInputElement | null;
     if (botField && botField.value) return;
 
     setStatus("sending");
     setErrorMsg("");
 
     try {
-      const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(DESTINATION)}`, {
+      const body = new URLSearchParams({
+        "form-name": "contact",
+        nom: form.nom,
+        email: form.email,
+        type_de_demande: typeLabels[type] || "Non précisé",
+        sujet: form.sujet,
+        message: form.message,
+      });
+      const res = await fetch("/", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name: form.nom,
-          email: form.email,
-          type_de_demande: typeLabels[type] || "Non précisé",
-          message: form.message,
-          _replyto: form.email,
-          _subject: form.sujet
-            ? `Site LB Photographie — ${form.sujet}`
-            : "Nouveau message depuis le site LB Photographie",
-          _template: "table",
-          _captcha: "false",
-        }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
       });
 
-      const data = await res.json();
-      if (data.success === true || data.success === "true") {
+      if (res.ok) {
         setStatus("sent");
         setForm({ nom: "", email: "", sujet: "", message: "" });
       } else {
         setStatus("error");
-        setErrorMsg(data.message || "Une erreur est survenue. Réessaie dans un instant.");
+        setErrorMsg("Une erreur est survenue. Réessayez dans un instant ou écrivez-moi directement par e-mail.");
       }
     } catch {
       setStatus("error");
-      setErrorMsg("Impossible d'envoyer le message. Vérifie ta connexion et réessaie.");
+      setErrorMsg("Impossible d'envoyer le message. Vérifiez votre connexion et réessayez.");
     }
   }
 
@@ -118,7 +112,7 @@ export default function Contact() {
               {/* Honeypot anti-spam — invisible pour les humains */}
               <input
                 type="text"
-                name="_honey"
+                name="bot-field"
                 tabIndex={-1}
                 autoComplete="off"
                 style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0, width: 0 }}
