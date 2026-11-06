@@ -6,8 +6,8 @@ export const metadata: Metadata = {
 };
 
 const references = [
-  { name: "Amazonia", logo: "/logos-clients/amazonia.png", h: 76 },
-  { name: "Société de cavalerie de la vallée de Tavannes et environs", logo: "/logos-clients/scvt.png", h: 92 },
+  { name: "Amazonia", logo: "/logos-clients/amazonia.png", h: 76, url: "https://www.amazonia.ch/en/" },
+  { name: "Société de cavalerie de la vallée de Tavannes et environs", logo: "/logos-clients/scvt.png", h: 92, url: "https://www.scvt.ch/" },
 ];
 
 export default function About() {
@@ -44,7 +44,9 @@ export default function About() {
         <p className="eyebrow leather" style={{ marginBottom: "1.2rem" }}>Ils m&rsquo;ont fait confiance</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "1.5rem 4rem", alignItems: "center", borderTop: "1px solid var(--border)", paddingTop: "1.8rem" }}>
           {references.map(r => (
-            <img key={r.name} src={r.logo} alt={r.name} loading="lazy" style={{ height: `${r.h}px`, width: "auto", maxWidth: "100%", mixBlendMode: "multiply", display: "block" }} />
+            <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer" aria-label={r.name} style={{ display: "block", opacity: 0.92, transition: "opacity 0.2s" }}>
+              <img src={r.logo} alt={r.name} loading="lazy" style={{ height: `${r.h}px`, width: "auto", maxWidth: "100%", mixBlendMode: "multiply", display: "block" }} />
+            </a>
           ))}
         </div>
       </section>
