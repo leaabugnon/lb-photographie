@@ -5,7 +5,7 @@ import Reveal from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Prestations",
   description:
-    "Photo et vidéo sur mesure : contenu pour entreprises et marques, shootings pour particuliers, cours et entraînements équestres, concours. Devis sur demande.",
+    "Photo et vidéo sur mesure : contenu et interviews pour entreprises et marques, shootings pour particuliers, cours et entraînements équestres, concours. Devis sur demande.",
 };
 
 const packs = [
@@ -40,7 +40,7 @@ export default function Prestations() {
           <Reveal>
             <h2 className="display">Entreprises & marques</h2>
             <p className="text">
-              Je crée du contenu photo et vidéo selon vos besoins, pour vos différents canaux : réseaux sociaux, site web, communication.
+              Je crée du contenu photo et vidéo selon vos besoins, interviews comprises, pour vos différents canaux : réseaux sociaux, site web, communication.
             </p>
             <p className="text">Tout se fait sur demande.</p>
             <div style={{ marginTop: "2.2rem" }}>
