@@ -191,7 +191,7 @@ export default function Portfolio() {
           </div>
         )
       ) : (
-        <div style={{ padding: "2rem 3rem 6rem", columns: "3 220px", columnGap: "6px", lineHeight: 0 }}>
+        <div style={{ padding: "2rem 3rem 3rem", columns: "3 220px", columnGap: "6px", lineHeight: 0 }}>
           {filtered.map(photo => (
             <div key={photo.id} onClick={() => setLbIndex(filtered.indexOf(photo))} style={{ display: "inline-block", width: "100%", marginBottom: "6px", position: "relative", overflow: "hidden", cursor: "pointer", breakInside: "avoid" }}
               onMouseEnter={e => { const o = e.currentTarget.querySelector(".ov") as HTMLElement; if(o) o.style.opacity="1"; }}
@@ -204,6 +204,11 @@ export default function Portfolio() {
           ))}
         </div>
       )}
+
+      <div style={{ textAlign: "center", padding: "0 var(--gutter) 6rem" }}>
+        <p style={{ fontSize: "14px", color: "var(--text-mid)", marginBottom: "1.2rem" }}>Beaucoup d&rsquo;autres images sont à voir sur Instagram.</p>
+        <a className="btn-ghost" href="https://instagram.com/lb_.photographie" target="_blank" rel="noopener noreferrer">Voir plus sur Instagram</a>
+      </div>
 
       {lightbox && (
         <div onClick={() => setLbIndex(null)}
@@ -241,7 +246,7 @@ export default function Portfolio() {
 
       <style>{`
         @media (max-width: 768px) {
-          div[style*="padding: 2rem 3rem 6rem"] { columns: 2 !important; padding: 1.5rem !important; }
+          div[style*="padding: 2rem 3rem 3rem"] { columns: 2 !important; padding: 1.5rem !important; }
           div[style*="padding: 4rem 3rem"] { padding: 3rem 1.5rem 1.5rem !important; }
         }
       `}</style>
