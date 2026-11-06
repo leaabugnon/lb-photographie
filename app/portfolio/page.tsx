@@ -73,6 +73,8 @@ const photos = [
 const videos: { src: string; poster: string; title?: string; ratio: string }[] = [
   { src: "/videos/jeudi.mp4", poster: "/videos/jeudi-poster.webp", ratio: "9/16" },
   { src: "/videos/cross.mp4", poster: "/videos/cross-poster.webp", ratio: "9/16" },
+  { src: "/videos/balade.mp4", poster: "/videos/balade-poster.webp", ratio: "9/16" },
+  { src: "/videos/chiens.mp4", poster: "/videos/chiens-poster.webp", ratio: "9/16" },
 ];
 
 // Anciens reels Instagram, mis de côté (la galerie ci-dessus les remplace).
