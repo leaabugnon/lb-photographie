@@ -235,8 +235,7 @@ export default function Portfolio() {
             maxWidth: "92vw", maxHeight: "78vh", objectFit: "contain", display: "block", cursor: "default",
           }} />
           <div style={{ textAlign: "center", marginTop: "1.25rem", cursor: "default" }} onClick={e => e.stopPropagation()}>
-            <p style={{ fontSize: "10px", letterSpacing: "0.2em", color: "rgba(247,244,239,0.6)", textTransform: "uppercase", marginBottom: "4px" }}>{lightbox.cat}{lbIndex !== null ? ` · ${lbIndex + 1} / ${filtered.length}` : ""}</p>
-            <p style={{ fontFamily: "var(--font-display)", fontSize: "1.15rem", color: "var(--ivory)" }}>{lightbox.title}</p>
+            <p style={{ fontSize: "10px", letterSpacing: "0.2em", color: "rgba(247,244,239,0.6)", textTransform: "uppercase", marginBottom: "4px" }}>{lightbox.cat}</p>
           </div>
         </div>
       )}
