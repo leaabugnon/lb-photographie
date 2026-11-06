@@ -5,7 +5,10 @@ export const metadata: Metadata = {
   description: "Léa Bugnon, photographe et vidéaste équestre basée en Suisse : concours, shootings privés et contenu pour écuries et entreprises.",
 };
 
-const references = ["Amazonia"];
+const references = [
+  { name: "Amazonia", logo: "/logos-clients/amazonia.png", h: 76 },
+  { name: "Société de cavalerie de la vallée de Tavannes et environs", logo: "/logos-clients/scvt.png", h: 92 },
+];
 
 export default function About() {
   return (
@@ -39,9 +42,9 @@ export default function About() {
       </div>
       <section style={{ padding: "0 var(--gutter) 6rem", maxWidth: "1100px" }}>
         <p className="eyebrow leather" style={{ marginBottom: "1.2rem" }}>Ils m&rsquo;ont fait confiance</p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem 2.5rem", borderTop: "1px solid var(--border)", paddingTop: "1.8rem" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "1.5rem 4rem", alignItems: "center", borderTop: "1px solid var(--border)", paddingTop: "1.8rem" }}>
           {references.map(r => (
-            <p key={r} className="display" style={{ fontSize: "clamp(1.5rem, 3vw, 2.2rem)" }}>{r}</p>
+            <img key={r.name} src={r.logo} alt={r.name} loading="lazy" style={{ height: `${r.h}px`, width: "auto", maxWidth: "100%", mixBlendMode: "multiply", display: "block" }} />
           ))}
         </div>
       </section>
