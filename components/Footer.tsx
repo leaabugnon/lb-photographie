@@ -24,7 +24,7 @@ export default function Footer() {
         <a href="https://instagram.com/lb_.photographie" target="_blank" rel="noopener">Instagram @lb_.photographie</a>
         <Link href="/contact">Formulaire de contact</Link>
       </div>
-      <p className="legal">© {new Date().getFullYear()} LB Photographie — Suisse</p>
+      <p className="legal">© {new Date().getFullYear()} Léa Bugnon, LB Photographie — Suisse</p>
     </footer>
   );
 }
